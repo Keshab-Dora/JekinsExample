@@ -5,7 +5,7 @@ pipeline {
         stage ('Compile Stage') {
 
             steps {
-                    sh "${mvnHome}/bin/mvn clean"
+                    sh 'mvn clean'
             }
         }
 
