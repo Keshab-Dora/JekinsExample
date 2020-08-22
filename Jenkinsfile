@@ -1,32 +1,21 @@
  def mvnHome = tool name: 'maven_3_6_3', type: 'maven'
 
-pipeline {
-    agent any
+node {
+   
 	
-    stages {
-        stage ('Compile Stage') {
+   stage('Mvn Package'){
+	   // Build using maven
+	   
+	   sh "${mvnHome} clean package deploy"
+   }
+   
 
-            steps {
-                    sh "${mvnHome}/bin/mvn clean"
-            }
-        }
-
-        stage ('Testing Stage') {
-
-            steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn test'
-                }
-            }
-        }
-
-
-        stage ('Deployment Stage') {
-            steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn deploy'
-                }
-            }
-        }
-    }
+   stage('Email Notification'){
+		mail bcc: '', body: """ You build successfully deployed
+		                       Job URL : ${env.JOB_URL}
+							   Job Name: ${env.JOB_NAME}
+Thanks,
+DevOps Team""", cc: '', from: '', replyTo: '', subject: "${env.JOB_NAME} Success", to: 'keshabdora111@gmail.com'
+   
+   }
 }
