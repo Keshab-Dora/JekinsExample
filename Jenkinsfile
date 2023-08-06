@@ -1,28 +1,27 @@
 pipeline {
-
     agent any
-    tools {
-        maven 'Maven_3.9.4' 
-    }
     stages {
-        stage('Compile stage') {
+        stage('git repo & clean') {
             steps {
-                bat "mvn clean compile" 
+              // bat "rmdir  /s /q TicketBookingServiceJunitTesting"
+                bat "git clone https://github.com/Keshab-Dora/JekinsExample.git"
+              //  bat "mvn clean -f TicketBookingServiceJunitTesting"
+            }
+        }
+        stage('install') {
+            steps {
+         //       bat "mvn install -f TicketBookingServiceJunitTesting"
+            }
+        }
+        stage('test') {
+            steps {
+         //       bat "mvn test -f TicketBookingServiceJunitTesting"
+            }
+        }
+        stage('package') {
+            steps {
+         //       bat "mvn package -f TicketBookingServiceJunitTesting"
+            }
         }
     }
-
-         stage('testing stage') {
-             steps {
-                bat "mvn test"
-        }
-    }
-
-          stage('deployment stage') {
-              steps {
-                bat "mvn deploy"
-        }
-    }
-
-  }
-
 }
